@@ -13,6 +13,7 @@ It deploys the following resources
 ```hcl
 terraform {
   required_version = "~> 1.5"
+
   required_providers {
     azapi = {
       source  = "azure/azapi"
@@ -69,15 +70,15 @@ resource "tls_private_key" "generated_ssh_key" {
 }
 
 resource "azapi_resource" "ssh_public_key" {
-  type = "Microsoft.Compute/sshPublicKeys@2023-09-01"
+  location  = local.location
+  name      = "odaa_ssh_key"
+  parent_id = azurerm_resource_group.this.id
+  type      = "Microsoft.Compute/sshPublicKeys@2023-09-01"
   body = {
     properties = {
       publicKey = tls_private_key.generated_ssh_key.public_key_openssh
     }
   }
-  location  = local.location
-  name      = "odaa_ssh_key"
-  parent_id = azurerm_resource_group.this.id
 }
 
 resource "local_file" "private_key" {
@@ -107,33 +108,7 @@ resource "azurerm_log_analytics_workspace" "this" {
 
 # Single-AZ Deployment of ODAA infrastructure/VM Cluster (Silver)
 module "silver_single_az" {
-  source              = "../../"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
-
-  # Create the Virtual Networks
-  virtual_networks = {
-    primaryvnet = {
-      name          = module.naming.virtual_network.name_unique
-      address_space = ["10.0.0.0/16"]
-      subnet = [
-        {
-          name               = "client"
-          address_prefixes   = ["10.0.0.0/24"]
-          delegate_to_oracle = true
-      }]
-      diagnostic_settings = {
-        sendToLogAnalytics = {
-          name                           = "sendToLogAnalytics"
-          workspace_resource_id          = azurerm_log_analytics_workspace.this.id
-          log_analytics_destination_type = "Dedicated"
-        }
-      }
-    }
-  }
-
-  # No peerings, only one vnet
-  odaa_vnet_peerings = {}
+  source = "../../"
 
   # Create the ODAA Infrastructure resource(s)
   cloud_exadata_infrastructure = {
@@ -154,7 +129,6 @@ module "silver_single_az" {
       enable_telemetry                     = local.enable_telemetry
     }
   }
-
   # Create the VM Cluster resource(s)
   cloud_exadata_vm_cluster = {
     primary_vm_cluster = {
@@ -185,9 +159,31 @@ module "silver_single_az" {
       enable_telemetry             = var.enable_telemetry
     }
   }
-
-  enable_telemetry = var.enable_telemetry # see variables.tf
-
+  location = azurerm_resource_group.this.location
+  # No peerings, only one vnet
+  odaa_vnet_peerings  = {}
+  resource_group_name = azurerm_resource_group.this.name
+  enable_telemetry    = var.enable_telemetry # see variables.tf
+  # Create the Virtual Networks
+  virtual_networks = {
+    primaryvnet = {
+      name          = module.naming.virtual_network.name_unique
+      address_space = ["10.0.0.0/16"]
+      subnet = [
+        {
+          name               = "client"
+          address_prefixes   = ["10.0.0.0/24"]
+          delegate_to_oracle = true
+      }]
+      diagnostic_settings = {
+        sendToLogAnalytics = {
+          name                           = "sendToLogAnalytics"
+          workspace_resource_id          = azurerm_log_analytics_workspace.this.id
+          log_analytics_destination_type = "Dedicated"
+        }
+      }
+    }
+  }
 }
 ```
 
