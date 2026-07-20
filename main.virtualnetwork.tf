@@ -1,7 +1,7 @@
 # Create the virtual networks, delegate the specified subnets to Oracle RP
 module "odaa_vnets" {
   source   = "Azure/avm-res-network-virtualnetwork/azurerm"
-  version  = "0.1.4"
+  version  = "0.19.0"
   for_each = var.virtual_networks
 
   resource_group_name           = var.resource_group_name
