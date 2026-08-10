@@ -3,6 +3,7 @@
 data "azurerm_resource_group" "odaa_group" {
   name = var.resource_group_name
 }
+
 module "odaa_infrastructure" {
   source   = "Azure/avm-res-oracledatabase-cloudexadatainfrastructure/azurerm"
   version  = "0.1.0"
