@@ -1,4 +1,3 @@
-
 resource "random_string" "suffix" {
   length  = 5
   special = false
@@ -10,7 +9,6 @@ resource "random_string" "suffix" {
 # data "azurerm_resource_group" "rg" {
 #   name = var.resource_group_name
 # }
-
 
 
 # data "azapi_resource" "odaa_infra" {
