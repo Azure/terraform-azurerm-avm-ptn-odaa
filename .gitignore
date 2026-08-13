@@ -56,5 +56,5 @@ id_dsa
 *.pem
 *.key
 *.mptfbackup
-.avm
 examples/*/policy
+.avm/managed-files.json
