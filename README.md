@@ -28,7 +28,7 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 2.4)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 3.71)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.2)
 
 - <a name="requirement_modtm"></a> [modtm](#requirement\_modtm) (~> 0.3)
 
@@ -311,19 +311,19 @@ The following Modules are called:
 
 Source: Azure/avm-res-oracledatabase-cloudexadatainfrastructure/azurerm
 
-Version: 0.1.0
+Version: 0.3.2
 
 ### <a name="module_odaa_vmcluster"></a> [odaa\_vmcluster](#module\_odaa\_vmcluster)
 
 Source: Azure/avm-res-oracledatabase-cloudvmcluster/azurerm
 
-Version: 0.1.0
+Version: 0.3.2
 
 ### <a name="module_odaa_vnets"></a> [odaa\_vnets](#module\_odaa\_vnets)
 
 Source: Azure/avm-res-network-virtualnetwork/azurerm
 
-Version: 0.1.4
+Version: 0.22.1
 
 ### <a name="module_vnet_peerings"></a> [vnet\_peerings](#module\_vnet\_peerings)
 
