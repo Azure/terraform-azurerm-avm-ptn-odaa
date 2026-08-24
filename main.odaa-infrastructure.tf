@@ -6,7 +6,7 @@ data "azurerm_resource_group" "odaa_group" {
 
 module "odaa_infrastructure" {
   source   = "Azure/avm-res-oracledatabase-cloudexadatainfrastructure/azurerm"
-  version  = "0.1.0"
+  version  = "0.3.2"
   for_each = var.cloud_exadata_infrastructure
 
   compute_count = each.value.compute_count
