@@ -4,10 +4,8 @@ module "odaa_vnets" {
   version  = "0.22.1"
   for_each = var.virtual_networks
 
-  resource_group_name           = var.resource_group_name
-  virtual_network_address_space = each.value.address_space
-  location                      = var.location
-  name                          = each.value.name
+  location = var.location
+  name     = each.value.name
   subnets = { for idx, item in each.value.subnet :
     item.name => {
       address_prefixes = item.address_prefixes
@@ -25,7 +23,9 @@ module "odaa_vnets" {
       ] : []
     }
   }
-  tags = var.tags
+  tags                          = var.tags
+  resource_group_name           = var.resource_group_name
+  virtual_network_address_space = each.value.address_space
 }
 
 # Setup peetings between virtual networks, if specified
