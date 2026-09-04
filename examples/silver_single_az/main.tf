@@ -79,7 +79,6 @@ resource "random_string" "suffix" {
   upper   = false
 }
 
-
 # Create a Resource group that will host all the pattern resources
 resource "azurerm_resource_group" "this" {
   location = local.location
