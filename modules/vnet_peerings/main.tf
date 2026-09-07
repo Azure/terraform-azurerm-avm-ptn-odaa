@@ -10,7 +10,7 @@ data "azurerm_virtual_network" "vnet_destination" {
 
 module "peering" {
   source  = "Azure/avm-res-network-virtualnetwork/azurerm//modules/peering"
-  version = "~> 0.4.0"
+  version = "~> 0.22.2"
 
   name                         = "${var.primary_vnet_name}-to-${var.secondary_vnet_name}"
   allow_forwarded_traffic      = true
