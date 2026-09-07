@@ -13,7 +13,7 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 2.4)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 3.71)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.4)
 
 ## Resources
 
@@ -75,7 +75,7 @@ The following Modules are called:
 
 Source: Azure/avm-res-network-virtualnetwork/azurerm//modules/peering
 
-Version: ~> 0.4.0
+Version: ~> 0.22.2
 
 <!-- markdownlint-disable-next-line MD041 -->
 ## Data Collection
