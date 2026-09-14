@@ -2,7 +2,7 @@
 
 module "odaa_vmcluster" {
   source   = "Azure/avm-res-oracledatabase-cloudvmcluster/azurerm"
-  version  = "0.1.0"
+  version  = "0.3.2"
   for_each = var.cloud_exadata_vm_cluster
 
   backup_subnet_cidr = each.value.backup_subnet_cidr
