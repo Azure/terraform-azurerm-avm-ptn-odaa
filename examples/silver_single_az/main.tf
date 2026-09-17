@@ -149,7 +149,7 @@ module "silver_single_az" {
   # No peerings, only one vnet
   odaa_vnet_peerings  = {}
   resource_group_name = azurerm_resource_group.this.name
-  enable_telemetry    = var.enable_telemetry # see variables.tf
+  enable_telemetry    = false # see variables.tf
   # Create the Virtual Networks
   virtual_networks = {
     primaryvnet = {
