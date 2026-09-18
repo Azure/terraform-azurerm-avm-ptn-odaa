@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/azure-verified-modules-tools/main/src/Avm.Authoring/Resources/Schemas/v1/avm-module-metadata.schema.json",
+  "moduleDisplayName": "Oracle Exedata Workload",
+  "moduleDescription": "AVM Pattern Module for Oracle Exedata Workload",
+  "canonicalType": "odaa",
+  "owners": [
+    "terrymandin"
+  ],
+  "telemetryIdPrefix": "46d3xtrf.ptn.7683b4b"
+}
