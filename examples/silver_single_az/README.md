@@ -163,7 +163,7 @@ module "silver_single_az" {
   # No peerings, only one vnet
   odaa_vnet_peerings  = {}
   resource_group_name = azurerm_resource_group.this.name
-  enable_telemetry    = false # see variables.tf
+  enable_telemetry    = var.enable_telemetry # see variables.tf
   # Create the Virtual Networks
   virtual_networks = {
     primaryvnet = {
@@ -232,7 +232,7 @@ If it is set to false, then no telemetry will be collected.
 
 Type: `bool`
 
-Default: `true`
+Default: `false`
 
 ## Outputs
 
