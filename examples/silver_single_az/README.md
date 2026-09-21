@@ -22,11 +22,11 @@ terraform {
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.74"
+      version = "~> 5.5"
     }
     local = {
       source  = "hashicorp/local"
-      version = "2.5.1"
+      version = "2.9.1"
     }
     random = {
       source  = "hashicorp/random"
@@ -34,7 +34,7 @@ terraform {
     }
     tls = {
       source  = "hashicorp/tls"
-      version = "4.0.5"
+      version = "4.4.1"
     }
   }
 }
@@ -196,13 +196,13 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 1.14.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 3.74)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.5)
 
-- <a name="requirement_local"></a> [local](#requirement\_local) (2.5.1)
+- <a name="requirement_local"></a> [local](#requirement\_local) (2.9.1)
 
 - <a name="requirement_random"></a> [random](#requirement\_random) (~> 3.5)
 
-- <a name="requirement_tls"></a> [tls](#requirement\_tls) (4.0.5)
+- <a name="requirement_tls"></a> [tls](#requirement\_tls) (4.4.1)
 
 ## Resources
 
@@ -211,9 +211,9 @@ The following resources are used by this module:
 - [azapi_resource.ssh_public_key](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) (resource)
 - [azurerm_log_analytics_workspace.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) (resource)
 - [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) (resource)
-- [local_file.private_key](https://registry.terraform.io/providers/hashicorp/local/2.5.1/docs/resources/file) (resource)
+- [local_file.private_key](https://registry.terraform.io/providers/hashicorp/local/2.9.1/docs/resources/file) (resource)
 - [random_string.suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) (resource)
-- [tls_private_key.generated_ssh_key](https://registry.terraform.io/providers/hashicorp/tls/4.0.5/docs/resources/private_key) (resource)
+- [tls_private_key.generated_ssh_key](https://registry.terraform.io/providers/hashicorp/tls/4.4.1/docs/resources/private_key) (resource)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs
