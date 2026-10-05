@@ -5,7 +5,6 @@ module "odaa_vmcluster" {
   version  = "0.3.2"
   for_each = var.cloud_exadata_vm_cluster
 
-  backup_subnet_cidr = each.value.backup_subnet_cidr
   # Configure the Cloud Infrastructure resource for the cluster
   cloud_exadata_infrastructure_id = module.odaa_infrastructure[each.value.cloud_exadata_infra_name].resource.id
   # Fundamentals
@@ -21,7 +20,8 @@ module "odaa_vmcluster" {
   ssh_public_keys            = each.value.ssh_public_keys
   subnet_id                  = module.odaa_vnets[each.value.vnet_name].subnets[each.value.client_subnet_name].id
   # Virtual network settings
-  vnet_id = module.odaa_vnets[each.value.vnet_name].virtual_network_id
+  vnet_id            = module.odaa_vnets[each.value.vnet_name].virtual_network_id
+  backup_subnet_cidr = each.value.backup_subnet_cidr
   # Storage configuration
   data_storage_percentage = each.value.data_storage_percentage
   # Optional settings
