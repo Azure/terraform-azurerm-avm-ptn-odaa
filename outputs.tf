@@ -12,7 +12,7 @@ output "odaa_vmcluster_resource_ids" {
 # https://azure.github.io/Azure-Verified-Modules/specs/terraform/#id-tffr2---category-outputs---additional-terraform-outputs
 output "odaa_vnets_resource_ids" {
   description = "Resource IDs of the Virtual networks created"
-  value       = { for k, v in module.odaa_vnets : k => v.virtual_network_id }
+  value       = { for k, v in module.odaa_vnets : k => v.resource_id }
 }
 
 output "resource_id" {

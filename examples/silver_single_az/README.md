@@ -13,20 +13,24 @@ It deploys the following resources
 
 ```hcl
 terraform {
-  required_version = "~> 1.5"
+  required_version = ">= 1.9, < 2.0"
 
   required_providers {
     azapi = {
-      source  = "azure/azapi"
-      version = "~> 1.14.0"
+      source  = "Azure/azapi"
+      version = "~> 2.12"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.74"
+      version = "~> 4.0"
     }
     local = {
       source  = "hashicorp/local"
       version = "2.5.1"
+    }
+    modtm = {
+      source  = "Azure/modtm"
+      version = "~> 0.3"
     }
     random = {
       source  = "hashicorp/random"
@@ -40,7 +44,7 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = "true"
+  resource_provider_registrations = "none"
   features {}
 }
 
@@ -60,7 +64,7 @@ locals {
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
   source  = "Azure/naming/azurerm"
-  version = "~> 0.3"
+  version = "0.4.4"
 }
 
 # Create SSH Keys for deployment of ODAA VM cluster
@@ -109,6 +113,12 @@ resource "azurerm_log_analytics_workspace" "this" {
 # Single-AZ Deployment of ODAA infrastructure/VM Cluster (Silver)
 module "silver_single_az" {
   source = "../../"
+  providers = {
+    azapi   = azapi
+    azurerm = azurerm
+    modtm   = modtm
+    random  = random
+  }
 
   # Create the ODAA Infrastructure resource(s)
   cloud_exadata_infrastructure = {
@@ -192,13 +202,15 @@ module "silver_single_az" {
 
 The following requirements are needed by this module:
 
-- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.5)
+- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.9, < 2.0)
 
-- <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 1.14.0)
+- <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 2.12)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 3.74)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
 
 - <a name="requirement_local"></a> [local](#requirement\_local) (2.5.1)
+
+- <a name="requirement_modtm"></a> [modtm](#requirement\_modtm) (~> 0.3)
 
 - <a name="requirement_random"></a> [random](#requirement\_random) (~> 3.5)
 
@@ -208,7 +220,7 @@ The following requirements are needed by this module:
 
 The following resources are used by this module:
 
-- [azapi_resource.ssh_public_key](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) (resource)
+- [azapi_resource.ssh_public_key](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/resource) (resource)
 - [azurerm_log_analytics_workspace.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) (resource)
 - [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) (resource)
 - [local_file.private_key](https://registry.terraform.io/providers/hashicorp/local/2.5.1/docs/resources/file) (resource)
@@ -246,7 +258,7 @@ The following Modules are called:
 
 Source: Azure/naming/azurerm
 
-Version: ~> 0.3
+Version: 0.4.4
 
 ### <a name="module_silver_single_az"></a> [silver\_single\_az](#module\_silver\_single\_az)
 
