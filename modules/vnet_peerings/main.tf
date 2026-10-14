@@ -10,7 +10,10 @@ data "azurerm_virtual_network" "vnet_destination" {
 
 module "peering" {
   source  = "Azure/avm-res-network-virtualnetwork/azurerm//modules/peering"
-  version = "~> 0.4.0"
+  version = "0.6.0"
+  providers = {
+    azapi = azapi
+  }
 
   name = "${var.primary_vnet_name}-to-${var.secondary_vnet_name}"
   remote_virtual_network = {

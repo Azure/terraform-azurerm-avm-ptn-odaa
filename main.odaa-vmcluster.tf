@@ -2,12 +2,11 @@
 
 module "odaa_vmcluster" {
   source   = "Azure/avm-res-oracledatabase-cloudvmcluster/azurerm"
-  version  = "0.1.0"
+  version  = "0.3.1"
   for_each = var.cloud_exadata_vm_cluster
 
-  backup_subnet_cidr = each.value.backup_subnet_cidr
   # Configure the Cloud Infrastructure resource for the cluster
-  cloud_exadata_infrastructure_id = module.odaa_infrastructure[each.value.cloud_exadata_infra_name].resource.id
+  cloud_exadata_infrastructure_id = module.odaa_infrastructure[each.value.cloud_exadata_infra_name].resource_id
   # Fundamentals
   cluster_name = each.value.cluster_name
   # Compute configuration settings
@@ -19,9 +18,10 @@ module "odaa_vmcluster" {
   memory_size_in_gbs         = each.value.memory_size_in_gbs
   resource_group_id          = data.azurerm_resource_group.odaa_group.id
   ssh_public_keys            = each.value.ssh_public_keys
-  subnet_id                  = module.odaa_vnets[each.value.vnet_name].subnets[each.value.client_subnet_name].id
+  subnet_id                  = module.odaa_vnets[each.value.vnet_name].subnets[each.value.client_subnet_name].resource_id
   # Virtual network settings
-  vnet_id = module.odaa_vnets[each.value.vnet_name].virtual_network_id
+  vnet_id            = module.odaa_vnets[each.value.vnet_name].resource_id
+  backup_subnet_cidr = each.value.backup_subnet_cidr
   # Storage configuration
   data_storage_percentage = each.value.data_storage_percentage
   # Optional settings

@@ -1,18 +1,22 @@
 terraform {
-  required_version = "~> 1.5"
+  required_version = ">= 1.9, < 2.0"
 
   required_providers {
     azapi = {
-      source  = "azure/azapi"
-      version = "~> 1.14.0"
+      source  = "Azure/azapi"
+      version = "~> 2.12"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.74"
+      version = "~> 4.0"
     }
     local = {
       source  = "hashicorp/local"
       version = "2.5.1"
+    }
+    modtm = {
+      source  = "Azure/modtm"
+      version = "~> 0.3"
     }
     random = {
       source  = "hashicorp/random"
@@ -26,7 +30,7 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = "true"
+  resource_provider_registrations = "none"
   features {}
 }
 
@@ -46,7 +50,7 @@ locals {
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
   source  = "Azure/naming/azurerm"
-  version = "~> 0.3"
+  version = "0.4.4"
 }
 
 # Create SSH Keys for deployment of ODAA VM cluster
@@ -95,6 +99,12 @@ resource "azurerm_log_analytics_workspace" "this" {
 # Single-AZ Deployment of ODAA infrastructure/VM Cluster (Silver)
 module "silver_single_az" {
   source = "../../"
+  providers = {
+    azapi   = azapi
+    azurerm = azurerm
+    modtm   = modtm
+    random  = random
+  }
 
   # Create the ODAA Infrastructure resource(s)
   cloud_exadata_infrastructure = {
