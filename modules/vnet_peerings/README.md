@@ -4,6 +4,8 @@
 
 This deploys the module in its simplest form.
 
+Existing direct callers must now supply `location`, even when `enable_telemetry` is `false`.
+
 <!-- markdownlint-disable MD033 -->
 ## Requirements
 
@@ -19,6 +21,9 @@ The following requirements are needed by this module:
 
 The following resources are used by this module:
 
+- [azapi_resource.telemetry](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/resource) (resource)
+- [terraform_data.telemetry](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) (resource)
+- [azapi_client_config.telemetry](https://registry.terraform.io/providers/Azure/azapi/latest/docs/data-sources/client_config) (data source)
 - [azurerm_virtual_network.vnet_destination](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) (data source)
 - [azurerm_virtual_network.vnet_source](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/virtual_network) (data source)
 
@@ -26,6 +31,12 @@ The following resources are used by this module:
 ## Required Inputs
 
 The following input variables are required:
+
+### <a name="input_location"></a> [location](#input\_location)
+
+Description: The Azure region for this module's resources or telemetry deployment.
+
+Type: `string`
 
 ### <a name="input_primary_vnet_name"></a> [primary\_vnet\_name](#input\_primary\_vnet\_name)
 
@@ -53,7 +64,17 @@ Type: `string`
 
 ## Optional Inputs
 
-No optional inputs.
+The following input variables are optional (have default values):
+
+### <a name="input_enable_telemetry"></a> [enable\_telemetry](#input\_enable\_telemetry)
+
+Description: This variable controls whether or not telemetry is enabled for the module.  
+For more information see <https://aka.ms/avm/telemetryinfo>.  
+If it is set to false, then no telemetry will be collected.
+
+Type: `bool`
+
+Default: `true`
 
 ## Outputs
 
@@ -75,7 +96,7 @@ The following Modules are called:
 
 Source: Azure/avm-res-network-virtualnetwork/azurerm//modules/peering
 
-Version: 0.6.0
+Version: 0.23.0
 
 <!-- markdownlint-disable-next-line MD041 -->
 ## Data Collection

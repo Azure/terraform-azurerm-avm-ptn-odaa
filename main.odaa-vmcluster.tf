@@ -24,6 +24,7 @@ module "odaa_vmcluster" {
   backup_subnet_cidr = each.value.backup_subnet_cidr
   # Storage configuration
   data_storage_percentage = each.value.data_storage_percentage
+  enable_telemetry        = var.enable_telemetry
   # Optional settings
   gi_version                   = each.value.gi_version
   is_diagnostic_events_enabled = each.value.is_diagnostic_events_enabled

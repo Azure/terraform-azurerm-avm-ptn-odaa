@@ -14,6 +14,7 @@ terraform {
       source  = "hashicorp/local"
       version = "2.5.1"
     }
+    # tflint-ignore: terraform_unused_required_providers
     modtm = {
       source  = "Azure/modtm"
       version = "~> 0.3"
@@ -49,8 +50,8 @@ locals {
 
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
-  source  = "Azure/naming/azurerm"
-  version = "0.4.4"
+  source  = "Azure/avm-utl-naming/azure"
+  version = "0.2.0"
 }
 
 # Create SSH Keys for deployment of ODAA VM cluster
@@ -86,25 +87,19 @@ resource "random_string" "suffix" {
 # Create a Resource group that will host all the pattern resources
 resource "azurerm_resource_group" "this" {
   location = local.location
-  name     = module.naming.resource_group.name_unique
+  name     = module.naming.names.resource_group.name_unique
 }
 
 # Create a Log analytics resource for use in Vnet diagnostics
 resource "azurerm_log_analytics_workspace" "this" {
   location            = azurerm_resource_group.this.location
-  name                = module.naming.log_analytics_workspace.name_unique
+  name                = module.naming.names.operational_insights_workspace.name_unique
   resource_group_name = azurerm_resource_group.this.name
 }
 
 # Single-AZ Deployment of ODAA infrastructure/VM Cluster (Silver)
 module "silver_single_az" {
   source = "../../"
-  providers = {
-    azapi   = azapi
-    azurerm = azurerm
-    modtm   = modtm
-    random  = random
-  }
 
   # Create the ODAA Infrastructure resource(s)
   cloud_exadata_infrastructure = {
@@ -163,7 +158,7 @@ module "silver_single_az" {
   # Create the Virtual Networks
   virtual_networks = {
     primaryvnet = {
-      name          = module.naming.virtual_network.name_unique
+      name          = module.naming.names.virtual_network.name_unique
       address_space = ["10.0.0.0/16"]
       subnet = [
         {

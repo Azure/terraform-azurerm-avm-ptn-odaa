@@ -1,8 +1,9 @@
 mock_provider "azapi" {
   mock_data "azapi_client_config" {
     defaults = {
-      subscription_id = "00000000-0000-0000-0000-000000000000"
-      tenant_id       = "00000000-0000-0000-0000-000000000001"
+      subscription_id          = "00000000-0000-0000-0000-000000000000"
+      tenant_id                = "00000000-0000-0000-0000-000000000001"
+      subscription_resource_id = "/subscriptions/00000000-0000-0000-0000-000000000000"
     }
   }
   mock_data "azapi_resource_list" {
@@ -32,6 +33,7 @@ mock_provider "azurerm" {
 }
 
 mock_provider "modtm" {}
+
 mock_provider "random" {}
 
 override_resource {
@@ -57,7 +59,7 @@ override_resource {
 }
 
 override_resource {
-  target = module.odaa_vnets["primaryvnet"].module.subnet["client"].azapi_resource.subnet
+  target = module.odaa_vnets["primaryvnet"].module.subnet["client"].azapi_resource.subnet[0]
   values = {
     id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-unit/providers/Microsoft.Network/virtualNetworks/vnet-unit/subnets/client"
   }

@@ -14,7 +14,9 @@ Limitations: This module does not currently handle updates to the Oracle resourc
 
 ## Upgrading existing deployments
 
-This upgrade requires Terraform 1.9 or later, AzAPI 2.12 or later (below 3.0), and AzureRM 4.x. It uses Exadata infrastructure module `0.3.0`, VM cluster module `0.3.1`, and virtual network/peering module `0.6.0`.
+This upgrade requires Terraform 1.9 or later, AzAPI 2.12 or later (below 3.0), and AzureRM 4.x. It uses Exadata infrastructure module `0.4.0`, VM cluster module `0.3.1`, and virtual network/peering module `0.23.0`.
+
+Direct callers of `modules/vnet_peerings` must now supply `location`, including when telemetry is disabled.
 
 **Do not apply this upgrade to existing deployments before migrating the virtual network and subnet state.** The network dependency changes providers and moves each subnet into a child module. Keeping the same Azure resource IDs does not preserve the Terraform addresses.
 
@@ -23,7 +25,7 @@ The following addresses are relative to this pattern module; retain your caller'
 | Previous address | New address |
 | --- | --- |
 | `module.odaa_vnets["<vnet-key>"].azurerm_virtual_network.vnet` | `module.odaa_vnets["<vnet-key>"].azapi_resource.vnet` |
-| `module.odaa_vnets["<vnet-key>"].azurerm_subnet.subnet["<subnet-name>"]` | `module.odaa_vnets["<vnet-key>"].module.subnet["<subnet-name>"].azapi_resource.subnet` |
+| `module.odaa_vnets["<vnet-key>"].azurerm_subnet.subnet["<subnet-name>"]` | `module.odaa_vnets["<vnet-key>"].module.subnet["<subnet-name>"].azapi_resource.subnet[0]` |
 
 There is no automatic state migration. Do not use a wildcard `moved` block or a plain cross-provider `terraform state mv`; the providers have different state schemas.
 
@@ -36,17 +38,17 @@ There is no automatic state migration. Do not use a wildcard `moved` block or a 
    $oldVnet = 'module.odaa.module.odaa_vnets["primaryvnet"].azurerm_virtual_network.vnet'
    $newVnet = 'module.odaa.module.odaa_vnets["primaryvnet"].azapi_resource.vnet'
    $oldSubnet = 'module.odaa.module.odaa_vnets["primaryvnet"].azurerm_subnet.subnet["client"]'
-   $newSubnet = 'module.odaa.module.odaa_vnets["primaryvnet"].module.subnet["client"].azapi_resource.subnet'
+   $newSubnet = 'module.odaa.module.odaa_vnets["primaryvnet"].module.subnet["client"].azapi_resource.subnet[0]'
    $vnetId = '/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/Microsoft.Network/virtualNetworks/<vnet-name>'
    $subnetId = "$vnetId/subnets/<subnet-name>"
 
    terraform state rm $oldVnet
    if ($LASTEXITCODE -ne 0) { throw 'VNet state removal failed; stop the migration.' }
-   terraform import $newVnet "${vnetId}?api-version=2023-11-01"
+   terraform import $newVnet "${vnetId}?api-version=2024-07-01"
    if ($LASTEXITCODE -ne 0) { throw 'VNet import failed; do not apply.' }
    terraform state rm $oldSubnet
    if ($LASTEXITCODE -ne 0) { throw 'Subnet state removal failed; stop the migration.' }
-   terraform import $newSubnet "${subnetId}?api-version=2023-11-01"
+   terraform import $newSubnet "${subnetId}?api-version=2024-07-01"
    if ($LASTEXITCODE -ne 0) { throw 'Subnet import failed; do not apply.' }
    ```
 
@@ -81,12 +83,11 @@ The following requirements are needed by this module:
 
 The following resources are used by this module:
 
-- [modtm_telemetry.telemetry](https://registry.terraform.io/providers/Azure/modtm/latest/docs/resources/telemetry) (resource)
+- [azapi_resource.telemetry](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/resource) (resource)
 - [random_string.suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) (resource)
-- [random_uuid.telemetry](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) (resource)
+- [terraform_data.telemetry](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) (resource)
 - [azapi_client_config.telemetry](https://registry.terraform.io/providers/Azure/azapi/latest/docs/data-sources/client_config) (data source)
 - [azurerm_resource_group.odaa_group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) (data source)
-- [modtm_module_source.telemetry](https://registry.terraform.io/providers/Azure/modtm/latest/docs/data-sources/module_source) (data source)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs
@@ -354,7 +355,7 @@ The following Modules are called:
 
 Source: Azure/avm-res-oracledatabase-cloudexadatainfrastructure/azurerm
 
-Version: 0.3.0
+Version: 0.4.0
 
 ### <a name="module_odaa_vmcluster"></a> [odaa\_vmcluster](#module\_odaa\_vmcluster)
 
@@ -366,7 +367,7 @@ Version: 0.3.1
 
 Source: Azure/avm-res-network-virtualnetwork/azurerm
 
-Version: 0.6.0
+Version: 0.23.0
 
 ### <a name="module_vnet_peerings"></a> [vnet\_peerings](#module\_vnet\_peerings)
 
