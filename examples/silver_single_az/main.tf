@@ -1,14 +1,14 @@
 terraform {
-  required_version = "~> 1.5"
+  required_version = ">= 1.9, < 2.0"
 
   required_providers {
     azapi = {
-      source  = "azure/azapi"
-      version = "~> 1.14.0"
+      source  = "Azure/azapi"
+      version = "~> 2.12"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.74"
+      version = "~> 4.0"
     }
     local = {
       source  = "hashicorp/local"
@@ -26,7 +26,7 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = "true"
+  resource_provider_registrations = "none"
   features {}
 }
 
@@ -45,8 +45,8 @@ locals {
 
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
-  source  = "Azure/naming/azurerm"
-  version = "~> 0.3"
+  source  = "Azure/avm-utl-naming/azure"
+  version = "0.2.0"
 }
 
 # Create SSH Keys for deployment of ODAA VM cluster
@@ -82,13 +82,13 @@ resource "random_string" "suffix" {
 # Create a Resource group that will host all the pattern resources
 resource "azurerm_resource_group" "this" {
   location = local.location
-  name     = module.naming.resource_group.name_unique
+  name     = module.naming.names.resource_group.name_unique
 }
 
 # Create a Log analytics resource for use in Vnet diagnostics
 resource "azurerm_log_analytics_workspace" "this" {
   location            = azurerm_resource_group.this.location
-  name                = module.naming.log_analytics_workspace.name_unique
+  name                = module.naming.names.operational_insights_workspace.name_unique
   resource_group_name = azurerm_resource_group.this.name
 }
 
@@ -153,7 +153,7 @@ module "silver_single_az" {
   # Create the Virtual Networks
   virtual_networks = {
     primaryvnet = {
-      name          = module.naming.virtual_network.name_unique
+      name          = module.naming.names.virtual_network.name_unique
       address_space = ["10.0.0.0/16"]
       subnet = [
         {

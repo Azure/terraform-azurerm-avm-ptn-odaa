@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.5"
+  required_version = ">= 1.9, < 2.0"
 
   required_providers {
     azapi = {
@@ -9,12 +9,7 @@ terraform {
     # TODO: Ensure all required providers are listed here and the version property includes a constraint on the maximum major version.
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.71"
-    }
-    # tflint-ignore: terraform_unused_required_providers
-    modtm = {
-      source  = "Azure/modtm"
-      version = "~> 0.3"
+      version = "~> 4.0"
     }
     random = {
       source  = "hashicorp/random"

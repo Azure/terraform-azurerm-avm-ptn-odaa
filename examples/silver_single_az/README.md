@@ -13,16 +13,16 @@ It deploys the following resources
 
 ```hcl
 terraform {
-  required_version = "~> 1.5"
+  required_version = ">= 1.9, < 2.0"
 
   required_providers {
     azapi = {
-      source  = "azure/azapi"
-      version = "~> 1.14.0"
+      source  = "Azure/azapi"
+      version = "~> 2.12"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.74"
+      version = "~> 4.0"
     }
     local = {
       source  = "hashicorp/local"
@@ -40,7 +40,7 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = "true"
+  resource_provider_registrations = "none"
   features {}
 }
 
@@ -59,8 +59,8 @@ locals {
 
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
-  source  = "Azure/naming/azurerm"
-  version = "~> 0.3"
+  source  = "Azure/avm-utl-naming/azure"
+  version = "0.2.0"
 }
 
 # Create SSH Keys for deployment of ODAA VM cluster
@@ -96,13 +96,13 @@ resource "random_string" "suffix" {
 # Create a Resource group that will host all the pattern resources
 resource "azurerm_resource_group" "this" {
   location = local.location
-  name     = module.naming.resource_group.name_unique
+  name     = module.naming.names.resource_group.name_unique
 }
 
 # Create a Log analytics resource for use in Vnet diagnostics
 resource "azurerm_log_analytics_workspace" "this" {
   location            = azurerm_resource_group.this.location
-  name                = module.naming.log_analytics_workspace.name_unique
+  name                = module.naming.names.operational_insights_workspace.name_unique
   resource_group_name = azurerm_resource_group.this.name
 }
 
@@ -167,7 +167,7 @@ module "silver_single_az" {
   # Create the Virtual Networks
   virtual_networks = {
     primaryvnet = {
-      name          = module.naming.virtual_network.name_unique
+      name          = module.naming.names.virtual_network.name_unique
       address_space = ["10.0.0.0/16"]
       subnet = [
         {
@@ -192,11 +192,11 @@ module "silver_single_az" {
 
 The following requirements are needed by this module:
 
-- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.5)
+- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.9, < 2.0)
 
-- <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 1.14.0)
+- <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) (~> 2.12)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 3.74)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
 
 - <a name="requirement_local"></a> [local](#requirement\_local) (2.5.1)
 
@@ -208,7 +208,7 @@ The following requirements are needed by this module:
 
 The following resources are used by this module:
 
-- [azapi_resource.ssh_public_key](https://registry.terraform.io/providers/azure/azapi/latest/docs/resources/resource) (resource)
+- [azapi_resource.ssh_public_key](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/resource) (resource)
 - [azurerm_log_analytics_workspace.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) (resource)
 - [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) (resource)
 - [local_file.private_key](https://registry.terraform.io/providers/hashicorp/local/2.5.1/docs/resources/file) (resource)
@@ -244,9 +244,9 @@ The following Modules are called:
 
 ### <a name="module_naming"></a> [naming](#module\_naming)
 
-Source: Azure/naming/azurerm
+Source: Azure/avm-utl-naming/azure
 
-Version: ~> 0.3
+Version: 0.2.0
 
 ### <a name="module_silver_single_az"></a> [silver\_single\_az](#module\_silver\_single\_az)
 
