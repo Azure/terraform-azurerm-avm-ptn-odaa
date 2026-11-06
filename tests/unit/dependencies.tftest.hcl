@@ -32,8 +32,6 @@ mock_provider "azurerm" {
   }
 }
 
-mock_provider "modtm" {}
-
 mock_provider "random" {}
 
 override_resource {
@@ -117,7 +115,6 @@ run "network_and_oracle_wiring" {
   providers = {
     azapi   = azapi
     azurerm = azurerm
-    modtm   = modtm
     random  = random
   }
 

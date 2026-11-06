@@ -12,7 +12,7 @@ Limitations: This module does not currently handle updates to the Oracle resourc
 
 ## Upgrading existing deployments
 
-This upgrade requires Terraform 1.9 or later, AzAPI 2.12 or later (below 3.0), and AzureRM 4.x. It uses Exadata infrastructure module `0.4.0`, VM cluster module `0.3.1`, and virtual network/peering module `0.23.0`.
+This upgrade requires Terraform 1.9 or later, AzAPI 2.12 or later (below 3.0), and AzureRM 4.x. It uses Exadata infrastructure module `0.4.0`, VM cluster module `0.4.0`, and virtual network/peering module `0.23.0`.
 
 Direct callers of `modules/vnet_peerings` must now supply `location`, including when telemetry is disabled.
 

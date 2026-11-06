@@ -2,7 +2,7 @@
 
 module "odaa_vmcluster" {
   source   = "Azure/avm-res-oracledatabase-cloudvmcluster/azurerm"
-  version  = "0.3.1"
+  version  = "0.4.0"
   for_each = var.cloud_exadata_vm_cluster
 
   # Configure the Cloud Infrastructure resource for the cluster
