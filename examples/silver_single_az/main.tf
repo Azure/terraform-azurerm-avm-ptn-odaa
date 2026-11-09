@@ -12,7 +12,7 @@ terraform {
     }
     local = {
       source  = "hashicorp/local"
-      version = "2.5.1"
+      version = "2.9.1"
     }
     random = {
       source  = "hashicorp/random"
@@ -20,7 +20,7 @@ terraform {
     }
     tls = {
       source  = "hashicorp/tls"
-      version = "4.0.5"
+      version = "4.4.2"
     }
   }
 }
@@ -46,7 +46,7 @@ locals {
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
   source  = "Azure/avm-utl-naming/azure"
-  version = "0.2.0"
+  version = "0.3.0"
 }
 
 # Create SSH Keys for deployment of ODAA VM cluster
