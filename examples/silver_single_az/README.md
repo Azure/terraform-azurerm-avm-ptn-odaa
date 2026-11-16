@@ -26,7 +26,7 @@ terraform {
     }
     local = {
       source  = "hashicorp/local"
-      version = "2.5.1"
+      version = "2.9.1"
     }
     random = {
       source  = "hashicorp/random"
@@ -34,7 +34,7 @@ terraform {
     }
     tls = {
       source  = "hashicorp/tls"
-      version = "4.0.5"
+      version = "4.4.2"
     }
   }
 }
@@ -60,7 +60,7 @@ locals {
 # This ensures we have unique CAF compliant names for our resources.
 module "naming" {
   source  = "Azure/avm-utl-naming/azure"
-  version = "0.2.0"
+  version = "0.3.0"
 }
 
 # Create SSH Keys for deployment of ODAA VM cluster
@@ -198,11 +198,11 @@ The following requirements are needed by this module:
 
 - <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
 
-- <a name="requirement_local"></a> [local](#requirement\_local) (2.5.1)
+- <a name="requirement_local"></a> [local](#requirement\_local) (2.9.1)
 
 - <a name="requirement_random"></a> [random](#requirement\_random) (~> 3.5)
 
-- <a name="requirement_tls"></a> [tls](#requirement\_tls) (4.0.5)
+- <a name="requirement_tls"></a> [tls](#requirement\_tls) (4.4.2)
 
 ## Resources
 
@@ -211,9 +211,9 @@ The following resources are used by this module:
 - [azapi_resource.ssh_public_key](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/resource) (resource)
 - [azurerm_log_analytics_workspace.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) (resource)
 - [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) (resource)
-- [local_file.private_key](https://registry.terraform.io/providers/hashicorp/local/2.5.1/docs/resources/file) (resource)
+- [local_file.private_key](https://registry.terraform.io/providers/hashicorp/local/2.9.1/docs/resources/file) (resource)
 - [random_string.suffix](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) (resource)
-- [tls_private_key.generated_ssh_key](https://registry.terraform.io/providers/hashicorp/tls/4.0.5/docs/resources/private_key) (resource)
+- [tls_private_key.generated_ssh_key](https://registry.terraform.io/providers/hashicorp/tls/4.4.2/docs/resources/private_key) (resource)
 
 <!-- markdownlint-disable MD013 -->
 ## Required Inputs
@@ -246,7 +246,7 @@ The following Modules are called:
 
 Source: Azure/avm-utl-naming/azure
 
-Version: 0.2.0
+Version: 0.3.0
 
 ### <a name="module_silver_single_az"></a> [silver\_single\_az](#module\_silver\_single\_az)
 
